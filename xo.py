@@ -1,6 +1,3 @@
-from random import randint, choice
-
-
 def print_map(p):
     print(' ', *list(range(len(p))))
     for idx, i in enumerate(p):
