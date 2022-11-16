@@ -1,3 +1,5 @@
+import os
+
 def print_map(p):
     print(' ', *list(range(len(p))))
     for idx, i in enumerate(p):
@@ -64,7 +66,9 @@ def run_game():
             print(f'Игрок {i.upper()} победил')
 
             break
-
+        
+        os.system('cls' if os.name=='nt' else 'clear')
+        
         print_map(map_)
         print('*'*30)
 
