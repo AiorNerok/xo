@@ -66,9 +66,10 @@ def run_game():
             print(f'Игрок {i.upper()} победил')
 
             break
-        
-        os.system('cls' if os.name=='nt' else 'clear')
-        
+        try:
+            os.system('cls' if os.name=='nt' else 'clear')
+        except:
+            pass    
         print_map(map_)
         print('*'*30)
 
