@@ -2,15 +2,18 @@ from typing import Literal
 
 
 class Dot:
-    """
-    Далее нужно реализовать класс Dot — класс точек на поле. Каждая точка описывается параметрами:
-        Координата по оси x .
-        Координата по оси y .
-    """
-
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: int, y: int, state) -> None:
         self.x = x
         self.y = y
+        self.state = state
+
+    @property
+    def state(self):
+        return self.state
+
+    @state.setter
+    def state(self, v):
+        self.state = v
 
 
 class Ship:
