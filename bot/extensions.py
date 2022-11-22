@@ -4,28 +4,16 @@ import json
 
 def validate_arguments(func):
     def wrapper(*args, **kwargs):
+        
         if len(set(args)) != 3:
-            raise BadRequestError(
-                """
-                    Number of arguments should be 3
-                    Example "RUR USD 100"
-                                    """
-            )
 
-        if args[0] == args[1]:
-            raise BadRequestError(
-                """
-                    The first argument and the second argument are equal
-                    But must be different
-                                    """
-            )
+            if args[0] == args[1]:
+                raise SameArgumentsError
+
+            raise BadRequestError
 
         if not args[2].isdigit():
-            raise BadRequestError(
-                """
-                    the last argument must be an integer greater than 0
-                                    """
-            )
+            raise NotNumberError
 
         return func(*args, **kwargs)
 
@@ -48,6 +36,11 @@ class API:
 class BadRequestError(Exception):
     pass
 
+class SameArgumentsError(Exception):
+    pass
+
+class NotNumberError(Exception):
+    pass
 
 
 def number_separator(num):
