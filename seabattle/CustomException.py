@@ -1,19 +1,16 @@
-"""Кастомные ошибки"""
-from dataclasses import dataclass
+class BoardException(Exception):
+    pass
 
+class BoardOutException(BoardException):
+    def __str__(self):
+        return "Вы пытаетесь выстрелить за доску!"
 
-@dataclass(frozen=True)
-class CustomException(Exception):
-    msg: str = ""
+class BoardUsedException(BoardException):
+    def __str__(self):
+        return "Вы уже стреляли в эту клетку"
 
-    def __str__(self) -> str:
-        return self.msg
-
-
-BoardException = CustomException()
-BoardOutException = CustomException("Вы пытаетесь выстрелить за доску!")
-BoardUsedException = CustomException("Вы уже стреляли в эту клетку")
-BoardWrongShipException = CustomException()
+class BoardWrongShipException(BoardException):
+    pass
 
 if __name__ == "__main__":
     pass

@@ -9,18 +9,12 @@ from CustomException import (
 
 
 class Dot:
-    """
-    class Dot
-    """
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-    def __init__(self, x_position: int, y_position: int):
-        self.x_position = x_position
-        self.y_position = y_position
-
-    def __eq__(self, other):
-        return (
-            self.x_position == other.x_position and self.y_position == other.y_position
-        )
+    def __eq__(self, __o):
+        return self.x == __o.x and self.y == __o.y
 
     def __repr__(self):
         return f"({self.x}, {self.y})"
@@ -61,7 +55,7 @@ class Board:
 
         self.count = 0
 
-        self.field = [["O"] * size for _ in range(size)]
+        self.field = [[" "] * size for _ in range(size)]
 
         self.busy = []
         self.ships = []
@@ -70,7 +64,7 @@ class Board:
 
         for d in ship.dots:
             if self.out(d) or d in self.busy:
-                raise BoardWrongShipException
+                raise BoardWrongShipException()
         for d in ship.dots:
             self.field[d.x][d.y] = "■"
             self.busy.append(d)
@@ -95,17 +89,17 @@ class Board:
                 cur = Dot(d.x + dx, d.y + dy)
                 if not (self.out(cur)) and cur not in self.busy:
                     if verb:
-                        self.field[cur.x][cur.y] = "."
+                        self.field[cur.x][cur.y] = "*"
                     self.busy.append(cur)
 
     def __str__(self):
         res = ""
-        res += "  | 1 | 2 | 3 | 4 | 5 | 6 |"
+        res += "  1 2 3 4 5 6"
         for i, row in enumerate(self.field):
-            res += f"\n{i+1} | " + " | ".join(row) + " |"
+            res += f"\n{i+1} " + " ".join(row)
 
         if self.hid:
-            res = res.replace("■", "O")
+            res = res.replace("■", "*")
         return res
 
     def out(self, d):
@@ -177,13 +171,12 @@ class User(Player):
 
             x, y = cords
 
-            if not (x.isdigit()) or not (y.isdigit()):
-                print(" Введите числа! ")
-                continue
-
-            x, y = int(x), int(y)
-
-            return Dot(x - 1, y - 1)
+            if (x.isdigit()) and (y.isdigit()):
+                x, y = int(x), int(y)
+                return Dot(x - 1, y - 1)
+            
+            print(" Введите числа! ")
+            continue
 
 
 class Game:
@@ -223,14 +216,19 @@ class Game:
         return board
 
     def greet(self):
-        print("-------------------")
-        print("  Приветсвуем вас  ")
-        print("      в игре       ")
-        print("    морской бой    ")
-        print("-------------------")
-        print(" формат ввода: x y ")
-        print(" x - номер строки  ")
-        print(" y - номер столбца ")
+        print(
+            """
+        -------------------
+          Приветсвуем вас  
+              в игре       
+            морской бой    
+        -------------------
+         формат ввода: x y 
+         x - номер строки  
+         y - номер столбца
+        -------------------
+        """
+        )
 
     def loop(self):
         num = 0
@@ -245,6 +243,7 @@ class Game:
                 print("-" * 20)
                 print("Ходит пользователь!")
                 repeat = self.us.move()
+                print('repeat=>', repeat)
             else:
                 print("-" * 20)
                 print("Ходит компьютер!")
